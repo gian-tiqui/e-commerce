@@ -48,4 +48,15 @@ public class ProductServiceImpl implements ProductService {
         .map(ProductMapper::mapToProductDto)
         .collect(Collectors.toList());
   }
+
+  @Override
+  public ProductDto deleteProduct(Long productId) {
+
+    Product deleteProduct = productRepository
+        .findById(productId).orElseThrow(
+            () -> new ResourceNotFoundException("Employee does not exist with id" + productId)
+        );
+
+    return ProductMapper.mapToProductDto(deleteProduct);
+  }
 }
