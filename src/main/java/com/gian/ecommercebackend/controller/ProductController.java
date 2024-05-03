@@ -38,11 +38,17 @@ public class ProductController {
     return ResponseEntity.ok(productDtos);
   }
 
+  @PatchMapping("{id}")
+  public ResponseEntity<ProductDto> updateProduct(@PathVariable("id") Long productId, @RequestBody ProductDto updatedProductDto) {
+    ProductDto productDto = productService.updateProduct(productId, updatedProductDto);
+
+    return ResponseEntity.ok(productDto);
+  }
+
   @DeleteMapping("{id}")
-  public ResponseEntity<ProductDto> deleteProductById(@PathVariable("id") Long productId) {
+  public ResponseEntity<String> deleteProductById(@PathVariable("id") Long productId) {
+    productService.deleteProduct(productId);
 
-    ProductDto deleteProduct = productService.deleteProduct(productId);
-
-    return ResponseEntity.ok(deleteProduct);
+    return ResponseEntity.ok("Product deleted");
   }
 }

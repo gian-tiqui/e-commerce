@@ -50,13 +50,39 @@ public class ProductServiceImpl implements ProductService {
   }
 
   @Override
-  public ProductDto deleteProduct(Long productId) {
+  public ProductDto updateProduct(Long productId, ProductDto updatedProductDto) {
+
+    Product foundProduct = productRepository
+        .findById(productId)
+        .orElseThrow(
+            () -> new ResourceNotFoundException("Product not found")
+        );
+
+    if (updatedProductDto.getProductName() != null) {
+      foundProduct.setProductName(updatedProductDto.getProductName());
+    }
+
+    if (updatedProductDto.getOwnerId() != null) {
+      foundProduct.setOwnerId(updatedProductDto.getOwnerId());
+    }
+
+    if (updatedProductDto.getQuantity() != 0) {
+      foundProduct.setQuantity(updatedProductDto.getQuantity());
+    }
+
+    Product updatedProductObj = productRepository.save(foundProduct);
+
+    return ProductMapper.mapToProductDto(updatedProductObj);
+  }
+
+  @Override
+  public void deleteProduct(Long productId) {
 
     Product deleteProduct = productRepository
         .findById(productId).orElseThrow(
             () -> new ResourceNotFoundException("Employee does not exist with id" + productId)
         );
 
-    return ProductMapper.mapToProductDto(deleteProduct);
+    productRepository.deleteById(productId);
   }
 }
