@@ -6,8 +6,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class ECommerceBackendApplication {
 
-	public static void main(String[] args) {
+	static void runApi() {
 		SpringApplication.run(ECommerceBackendApplication.class, args);
+	}
+
+	public static void main(String[] args) {
+		runApi();
 	}
 
 }
